@@ -4,6 +4,7 @@ import android.app.Activity
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -21,6 +22,7 @@ class Result : AppCompatActivity() {
 
         val backgroundScreen = findViewById<ConstraintLayout>(R.id.background_screen)
         val resultMessageTextView = findViewById<TextView>(R.id.color_code_result_message)
+        val backButton = findViewById<Button>(R.id.back_button)
 
         val colorCode = intent.getStringExtra(COLOR_KEY)
 
@@ -31,7 +33,6 @@ class Result : AppCompatActivity() {
                 resultMessageTextView.text = getString(R.string.color_code_result_message, colorCode.uppercase())
             } catch (e: IllegalArgumentException) {
                 Log.e("Result", "Invalid color code format: $colorCode", e)
-                // kirim balik error ke MainActivity
                 val resultIntent = intent
                 resultIntent.putExtra(ERROR_KEY, getString(R.string.color_code_input_invalid))
                 setResult(Activity.RESULT_OK, resultIntent)
@@ -48,6 +49,10 @@ class Result : AppCompatActivity() {
             val resultIntent = intent
             resultIntent.putExtra(ERROR_KEY, getString(R.string.info_no_color_code_received_message))
             setResult(Activity.RESULT_OK, resultIntent)
+            finish()
+        }
+
+        backButton.setOnClickListener {
             finish()
         }
     }
